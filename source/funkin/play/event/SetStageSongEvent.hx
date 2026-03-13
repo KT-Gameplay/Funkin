@@ -77,11 +77,11 @@ class SetStageSongEvent extends SongEvent
  * The main module that handles stage changing!
  * This comes with the added benefit of preloading all of the stage props.
  */
-class SC_StageChanger extends Module
+class StageChanger extends Module
 {
   function new()
   {
-    super('SC_StageChanger');
+    super('StageChanger');
   }
 
   /**
@@ -93,7 +93,7 @@ class SC_StageChanger extends Module
 
     for (event in event.events)
     {
-      if (event.eventKind == 'ChangeStage')
+      if (event.eventKind == 'SetStageSongEvent')
       {
         var stageID = event.value.stageid;
         if (stageID != null && stageID != '')
