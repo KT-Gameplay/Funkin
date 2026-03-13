@@ -21,11 +21,11 @@ import funkin.save.Save;
  * This is the event for the stage changer.
  * Values are passed through the module.
  */
-class SC_ChangeStageEvent extends SongEvent
+class SetStageSongEvent extends SongEvent
 {
   function new()
   {
-    super('ChangeStage', {processOldEvents: true});
+    super('SetStageSongEvent', {processOldEvents: true});
   }
 
   /**
@@ -33,7 +33,7 @@ class SC_ChangeStageEvent extends SongEvent
    */
   override function handleEvent(data:SongEventData)
   {
-    ModuleHandler.getModule('SC_StageChanger').scriptCall('swapStage', [data.value.stageid, null]);
+    ModuleHandler.getModule('StageChanger').scriptCall('swapStage', [data.value.stageid, null]);
   }
 
   function getEventSchema()
@@ -51,7 +51,7 @@ class SC_ChangeStageEvent extends SongEvent
 
   function getTitle()
   {
-    return "Change Stage";
+    return "Set Stage Event";
   }
 
   /**
@@ -75,11 +75,11 @@ class SC_ChangeStageEvent extends SongEvent
  * The main module that handles stage changing!
  * This comes with the added benefit of preloading all of the stage props.
  */
-class SC_StageChanger extends Module
+class StageChanger extends Module
 {
   function new()
   {
-    super('SC_StageChanger');
+    super('StageChanger');
   }
 
   /**
@@ -91,7 +91,7 @@ class SC_StageChanger extends Module
 
     for (event in event.events)
     {
-      if (event.eventKind == 'ChangeStage')
+      if (event.eventKind == 'SetStageSongEvent')
       {
         var stageID = event.value.stageid;
         if (stageID != null && stageID != '')
