@@ -11,4 +11,11 @@ class NoAnimNoteKind extends NoteKind
   {
     super("noanim", "Disables singing animations", null, [], DISABLE_ANIMATIONS, null);
   }
+
+  // A simple fix that might prevent the player from not going idle
+  function onNoteHit(event)
+  {
+    super.onNoteHit(event);
+    event.stopPropagation();
+  }
 }
