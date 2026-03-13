@@ -15,7 +15,9 @@ import funkin.modding.events.ScriptEventDispatcher;
 import funkin.modding.module.Module;
 import StringTools;
 import flixel.FlxSprite;
-import funkin.save.Save;
+import funkin.Paths;
+import funkin.play.character.BaseCharacter;
+import funkin.data.stage.StageData;
 
 /**
  * This is the event for the stage changer.
@@ -75,11 +77,11 @@ class SetStageSongEvent extends SongEvent
  * The main module that handles stage changing!
  * This comes with the added benefit of preloading all of the stage props.
  */
-class StageChanger extends Module
+class SC_StageChanger extends Module
 {
   function new()
   {
-    super('StageChanger');
+    super('SC_StageChanger');
   }
 
   /**
@@ -91,7 +93,7 @@ class StageChanger extends Module
 
     for (event in event.events)
     {
-      if (event.eventKind == 'SetStageSongEvent')
+      if (event.eventKind == 'ChangeStage')
       {
         var stageID = event.value.stageid;
         if (stageID != null && stageID != '')
@@ -170,6 +172,7 @@ class StageChanger extends Module
       }
       PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
     }
+
     PlayState.instance.currentStage.resetStage();
     PlayState.instance.currentStage.refresh();
   }
