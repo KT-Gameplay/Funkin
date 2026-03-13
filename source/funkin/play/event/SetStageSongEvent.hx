@@ -141,7 +141,6 @@ class SC_StageChanger extends Module
     var bf:BaseCharacter = CharacterDataParser.fetchCharacter(characters[0]);
     var gf:BaseCharacter = CharacterDataParser.fetchCharacter(characters[1]);
     var dad:BaseCharacter = CharacterDataParser.fetchCharacter(characters[2]);
-    var pet:BaseCharacter = CharacterDataParser.fetchCharacter(Save.instance.modOptions["petType"]);
 
     if (bf != null)
     {
@@ -171,49 +170,7 @@ class SC_StageChanger extends Module
       }
       PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
     }
-
-    if (pet != null)
-    {
-      if (PlayState.instance.currentStage.characters.get('pet') != null)
-      {
-        PlayState.instance.currentStage.characters.get('pet').destroy();
-      }
-	PlayState.instance.currentStage.add(pet);
-	pet.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
-	pet.x = PlayState.instance.currentStage.getBoyfriend().x + PlayState.instance.currentStage.getBoyfriend().globalOffsets[0];
-	pet.y = PlayState.instance.currentStage.getBoyfriend().y + PlayState.instance.currentStage.getBoyfriend().globalOffsets[1];
-	pet.globalOffsets[0] = 285;
-	pet.globalOffsets[1] = 440;
-	PlayState.instance.currentStage.add(pet);
-	PlayState.instance.currentStage.characters.set('pet', pet);
     }
-
-	dadGhost = new FlxSprite();
-	bfGhost = new FlxSprite();
-
-	if (PlayState.instance.currentStage.namedProps.get('bfGhost') != null)
-	{
-	PlayState.instance.currentStage.namedProps.get('bfGhost').destroy();
-	}
-	PlayState.instance.currentStage.add(bfGhost);
-	if (PlayState.instance.currentStage.namedProps.get('dadGhost') != null)
-	{
-	PlayState.instance.currentStage.namedProps.get('dadGhost').destroy();
-	}
-	PlayState.instance.currentStage.add(dadGhost);
-
-	dadGhost.visible = false;
-	dadGhost.antialiasing = PlayState.instance.currentStage.getDad().antialiasing;
-	dadGhost.scale.set(PlayState.instance.currentStage.getDad().scale.x, PlayState.instance.currentStage.getDad().scale.y);
-	dadGhost.updateHitbox();
-	PlayState.instance.currentStage.namedProps.set('dadGhost', dadGhost);
-
-	bfGhost.visible = false;
-	bfGhost.antialiasing = PlayState.instance.currentStage.getBoyfriend().antialiasing;
-	bfGhost.scale.set(PlayState.instance.currentStage.getBoyfriend().scale.x, PlayState.instance.currentStage.getBoyfriend().scale.y);
-	bfGhost.updateHitbox();
-	PlayState.instance.currentStage.namedProps.set('bfGhost', bfGhost);
-
     PlayState.instance.currentStage.resetStage();
     PlayState.instance.currentStage.refresh();
   }
