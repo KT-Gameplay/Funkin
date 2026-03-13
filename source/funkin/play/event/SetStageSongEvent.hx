@@ -170,7 +170,6 @@ class SC_StageChanger extends Module
       }
       PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
     }
-    }
     PlayState.instance.currentStage.resetStage();
     PlayState.instance.currentStage.refresh();
   }
