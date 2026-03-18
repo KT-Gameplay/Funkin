@@ -554,6 +554,16 @@ class PlayState extends MusicBeatSubState
   var scoreText:FlxBitmapText;
 
   /**
+   * The path of image for the FlxBitmapText score.
+   */
+  var bitmapTextImage; 
+
+  /**
+   * The path of .fnt file for the FlxBitmapText score.
+   */
+  var bitmapTextFile; 
+
+  /**
    * The bar which displays the player's health.
    * Dynamically updated based on the value of `healthLerp` (which is based on `health`).
    */
@@ -808,7 +818,11 @@ class PlayState extends MusicBeatSubState
     // Healthbar
     healthBarBG = FunkinSprite.create(0, 0, 'healthBar');
     healthBar = new FlxBar(0, 0, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), null, 0, 2);
-    scoreText = new FlxBitmapText(0, 0, '', FlxBitmapFont.fromAngelCode(Paths.font("vcr-bmp.png"), Paths.font("vcr-bmp.fnt")));
+    
+    // Score Text
+    bitmapTextImage = Paths.font("vcr-bmp.png");
+    bitmapTextFile = Paths.font("vcr-bmp.fnt");
+    scoreText = new FlxBitmapText(0, 0, '', FlxBitmapFont.fromAngelCode(bitmapTextImage, bitmapTextFile));
 
     // Combo & Pop Up
     comboPopUps = new PopUpStuff(noteStyle);
