@@ -134,7 +134,7 @@ class ZoomCameraSongEvent extends SongEvent
       title: 'Easing Type',
       defaultValue: SongEvent.DEFAULT_EASE,
       type: SongEventFieldType.ENUM,
-      keys: ['Linear' => 'linear', 'Instant (Ignores duration)' => 'INSTANT', 'Sine' => 'sine', 'Quad' => 'quad', 'Cube' => 'cube', 'Quart' => 'quart', 'Quint' => 'quint', 'Expo' => 'expo', 'Smooth Step' => 'smoothStep', 'Smoother Step' => 'smootherStep', 'Elastic' => 'elastic', 'Back' => 'back', 'Bounce' => 'bounce', 'Circ' => 'circ']
+      keys: ['Linear' => 'linear', 'Instant (Ignores duration)' => 'INSTANT', 'Sine' => 'sine', 'Quad' => 'quad', 'Cube' => 'cube', 'Quart' => 'quart', 'Quint' => 'quint', 'Expo' => 'expo', 'Smooth Step' => 'smoothStep', 'Smoother Step' => 'smootherStep', 'Elastic' => 'elastic', 'Back' => 'back', 'Bounce' => 'bounce', 'Circ' => 'circ',]
     }, {
       name: 'easeDir',
       title: 'Easing Direction',
