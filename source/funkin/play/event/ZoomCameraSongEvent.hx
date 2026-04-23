@@ -33,6 +33,7 @@ class ZoomCameraSongEvent extends SongEvent
   public static final DEFAULT_WIDESCREEN_SCALE:Float = 0.0;
   public static final DEFAULT_DURATION:Float = 4.0;
   public static final DEFAULT_MODE:String = 'direct';
+  public static final DEFAULT_UNIT:String = 'steps';
 
   public override function handleEvent(data:SongEventData):Void
   {
@@ -51,6 +52,8 @@ class ZoomCameraSongEvent extends SongEvent
 
     var duration:Float = data.getFloat('duration') ?? DEFAULT_DURATION;
 
+    var units:String = data.getString('units') ?? DEFAULT_UNIT;
+
     var mode:String = data.getString('mode') ?? DEFAULT_MODE;
     var isDirectMode:Bool = mode == 'direct';
 
@@ -64,10 +67,13 @@ class ZoomCameraSongEvent extends SongEvent
     {
       case 'INSTANT':
         PlayState.instance.tweenCameraZoom(scaledZoom, 0, isDirectMode);
+
       default:
-        var durSeconds = Conductor.instance.stepLengthMs * duration / 1000;
+        var durSeconds = (units == 'steps') ? Conductor.instance.stepLengthMs * duration / 1000 : duration;
+
         var easeFunctionName = '$ease$easeDir';
         var easeFunction:Null<Float->Float> = Reflect.field(FlxEase, easeFunctionName);
+
         if (easeFunction == null)
         {
           trace('Invalid ease function: $easeFunctionName');
@@ -116,13 +122,19 @@ class ZoomCameraSongEvent extends SongEvent
       min: 0,
       step: 0.5,
       type: SongEventFieldType.FLOAT,
-      units: 'steps'
+      units: 'units'
+    }, {
+      name: 'units',
+      title: 'Units',
+      defaultValue: DEFAULT_UNIT,
+      type: SongEventFieldType.ENUM,
+      keys: ['Steps' => 'steps', 'Seconds' => 'seconds']
     }, {
       name: 'ease',
       title: 'Easing Type',
       defaultValue: SongEvent.DEFAULT_EASE,
       type: SongEventFieldType.ENUM,
-      keys: ['Linear' => 'linear', 'Instant (Ignores duration)' => 'INSTANT', 'Sine' => 'sine', 'Quad' => 'quad', 'Cube' => 'cube', 'Quart' => 'quart', 'Quint' => 'quint', 'Expo' => 'expo', 'Smooth Step' => 'smoothStep', 'Smoother Step' => 'smootherStep', 'Elastic' => 'elastic', 'Back' => 'back', 'Bounce' => 'bounce', 'Circ ' => 'circ',]
+      keys: ['Linear' => 'linear', 'Instant (Ignores duration)' => 'INSTANT', 'Sine' => 'sine', 'Quad' => 'quad', 'Cube' => 'cube', 'Quart' => 'quart', 'Quint' => 'quint', 'Expo' => 'expo', 'Smooth Step' => 'smoothStep', 'Smoother Step' => 'smootherStep', 'Elastic' => 'elastic', 'Back' => 'back', 'Bounce' => 'bounce', 'Circ' => 'circ']
     }, {
       name: 'easeDir',
       title: 'Easing Direction',
