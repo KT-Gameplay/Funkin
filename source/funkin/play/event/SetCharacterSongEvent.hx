@@ -13,8 +13,8 @@ class SetCharacterSongEvent extends SongEvent
   public function new()
   {
     super('SetCharacter', {
-			processOldEvents: true
-		});
+	  processOldEvents: true
+	});
   }
 
    static final DEFAULT_CHAR:String = 'bf';
