@@ -56,11 +56,12 @@ class FocusCameraSongEvent extends SongEvent
     });
   }
 
-  static final DEFAULT_X_POSITION:Float = 0.0;
-  static final DEFAULT_Y_POSITION:Float = 0.0;
-  static final DEFAULT_DURATION:Float = 4.0;
-  static final DEFAULT_CAMERA_EASE:String = 'CLASSIC';
-  static final DEFAULT_TARGET:Int = 0; // Boyfriend
+  public static final DEFAULT_X_POSITION:Float = 0.0;
+  public static final DEFAULT_Y_POSITION:Float = 0.0;
+  public static final DEFAULT_DURATION:Float = 4.0;
+  public static final DEFAULT_CAMERA_EASE:String = 'CLASSIC';
+  public static final DEFAULT_TARGET:Int = 0; // Boyfriend
+  public static final DEFAULT_CAMSPEED:Float = 1; 
 
   override public function handleEvent(data:SongEventData):Void
   {
@@ -93,6 +94,9 @@ class FocusCameraSongEvent extends SongEvent
     // Get target position based on char.
     var targetX:Float = posX;
     var targetY:Float = posY;
+
+    var lerpSpeed = data.getFloat('lerpSpeed');
+    if (lerpSpeed == null) lerpSpeed = DEFAULT_CAMSPEED;
 
     switch (char)
     {
@@ -142,6 +146,7 @@ class FocusCameraSongEvent extends SongEvent
       case 'CLASSIC': // Old-school. No ease. Just set follow point.
         PlayState.instance.resetCamera(false, false, false);
         PlayState.instance.cancelCameraFollowTween();
+        PlayState.instance.cameraLerpSpeed = lerpSpeed;
         PlayState.instance.cameraFollowPoint.setPosition(targetX, targetY);
       case 'INSTANT': // Instant ease. Duration is automatically 0.
         PlayState.instance.tweenCameraToPosition(targetX, targetY, 0);
@@ -236,6 +241,15 @@ class FocusCameraSongEvent extends SongEvent
         defaultValue: SongEvent.DEFAULT_EASE_DIR,
         type: SongEventFieldType.ENUM,
         keys: ['In' => 'In', 'Out' => 'Out', 'In/Out' => 'InOut']
+      },
+      {
+        name: 'lerpSpeed',
+        title: 'Camera Speed',
+        defaultValue: DEFAULT_CAMSPEED,
+        min: 0,
+        step: 0.1,
+        type: SongEventFieldType.FLOAT,
+        units: 'x'
       }
     ]);
   }
