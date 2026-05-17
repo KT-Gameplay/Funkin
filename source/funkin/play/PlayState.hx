@@ -704,7 +704,7 @@ class PlayState extends MusicBeatSubState
   }
 
   /**
-   * The String map used for set character event.
+   * The map used for set character event.
    */
   public var characterMap:Map<String, BaseCharacter> = new Map<String, BaseCharacter>();
 
