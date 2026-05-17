@@ -1137,6 +1137,11 @@ class PlayState extends MusicBeatSubState
       // Stops any existing countdown.
       Countdown.stopCountdown();
 
+	  // Reset the characters.
+	  changeCharacter('bf', currentChart.characters.player);
+	  changeCharacter('gf', currentChart.characters.girlfriend);
+      changeCharacter('dad', currentChart.characters.opponent);
+		
       // Reset the health icons.
       currentStage?.getBoyfriend()?.initHealthIcon(false);
       currentStage?.getDad()?.initHealthIcon(true);
