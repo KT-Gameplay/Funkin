@@ -290,6 +290,11 @@ class PlayState extends MusicBeatSubState
   public var cameraFollowTween:Null<FlxTween>;
 
   /**
+   * The camera speed for classic ease camera focus.
+   */
+  public var cameraLerpSpeed:Float= 1;
+
+  /**
    * An FlxTween that zooms the camera to the desired amount.
    */
   public var cameraZoomTween:Null<FlxTween>;
@@ -1683,7 +1688,7 @@ class PlayState extends MusicBeatSubState
       if (iconP2 != null && iconP2.bopTween != null) iconP2.bopTween.active = true;
 
       // Resume camera follow
-      FlxG.camera.followLerp = Constants.DEFAULT_CAMERA_FOLLOW_RATE;
+      FlxG.camera.followLerp = Constants.DEFAULT_CAMERA_FOLLOW_RATE * cameraLerpSpeed;
 
       if (currentConversation != null)
       {
@@ -3931,7 +3936,7 @@ class PlayState extends MusicBeatSubState
       cancelAllCameraTweens();
     }
 
-    FlxG.camera.follow(cameraFollowPoint, LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+    FlxG.camera.follow(cameraFollowPoint, LOCKON, (Constants.DEFAULT_CAMERA_FOLLOW_RATE * cameraLerpSpeed));
     FlxG.camera.targetOffset.set();
 
     if (shouldSubstatePause) FlxG.camera.followLerp = 0;
