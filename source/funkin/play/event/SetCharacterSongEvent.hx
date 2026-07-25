@@ -90,14 +90,14 @@ class SetCharacterSongEvent extends SongEvent
 				title: 'Offset X',
 				defaultValue: DEFAULT_X_OFFSET,
 				type: SongEventFieldType.FLOAT,
-        step: 5
+                step: 5
 			},
 			{
 				name: 'y',
 				title: 'Offset Y',
 				defaultValue: DEFAULT_Y_OFFSET,
 				type: SongEventFieldType.FLOAT,
-        step: 5
+                step: 5
 			}			
 		];
 	}
