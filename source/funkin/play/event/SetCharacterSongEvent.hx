@@ -25,10 +25,10 @@ class SetCharacterSongEvent extends SongEvent
   static final DEFAULT_X_OFFSET:Float = 0;
   static final DEFAULT_Y_OFFSET:Float = 0;
 
-	public override function handleEvent(data:SongEventData)
-	{
+  public override function handleEvent(data:SongEventData)
+  {
     // Does nothing if there is no PlayState.
-		if (PlayState.instance == null) return;
+	if (PlayState.instance == null) return;
     
     // Does nothing if we are minimal mode.
     if (PlayState.instance.isMinimalMode) return;
@@ -46,12 +46,12 @@ class SetCharacterSongEvent extends SongEvent
     if (offsetY == null) offsetY = DEFAULT_Y_OFFSET;
 
     PlayState.instance.changeCharacter(targetChar, newChar, offsetX, offsetY);
-	}
+  }
 
   public override function getTitle():String
-	{
-		return 'Set Character';
-	}
+  {
+	  return 'Set Character';
+  }
 
    /**
    * ```
