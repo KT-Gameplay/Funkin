@@ -14,7 +14,6 @@ on:
 
 jobs:
   build-windows:
-
     runs-on: windows-latest
 
     defaults:
@@ -25,23 +24,19 @@ jobs:
       BUILD_DEFINES: ${{ github.event.inputs.build-defines || '-DGITHUB_BUILD' }}
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
 
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.7
 
-
       - name: Setup Haxelib
         run: |
           haxelib setup C:/haxelib
-
 
       - name: Install dependencies
         run: |
@@ -49,20 +44,25 @@ jobs:
           haxelib --global git haxelib https://github.com/FunkinCrew/haxelib.git
           haxelib --global git hmm https://github.com/FunkinCrew/hmm.git
           haxelib --global run hmm install -q
+          haxelib --global fixrepo
+          haxelib --global list
 
-
-      - name: Setup HXCPP
+      - name: Build HXCPP Tools
         run: |
-          cd .haxelib/hxcpp/git/tools/hxcpp
+          pushd .haxelib/hxcpp/git/tools/hxcpp
           haxe compile.hxml
-          cd ../../../../..
+          popd
 
+      - name: Setup Lime
+        run: |
+          haxelib --always run lime setup
+          haxelib run lime rebuild hxcpp
+          haxelib run lime rebuild cpp -64
 
       - name: Build Windows
         run: |
           haxelib run lime build windows -v -release $BUILD_DEFINES
         timeout-minutes: 120
-
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
