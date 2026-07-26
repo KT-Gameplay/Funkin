@@ -1,11 +1,11 @@
-name: Build Windows Game
+name: Build Windows
 
 on:
   workflow_dispatch:
     inputs:
       build-defines:
         type: string
-        description: Build defines to use
+        description: Build defines
         default: "-DGITHUB_BUILD"
 
   push:
@@ -24,28 +24,20 @@ jobs:
       BUILD_DEFINES: ${{ github.event.inputs.build-defines || '-DGITHUB_BUILD' }}
 
     steps:
+      - name: Make git happy
+        run: |
+          git config --global --replace-all safe.directory $GITHUB_WORKSPACE
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Setup Haxe
-        uses: krdlab/setup-haxe@master
+      - name: Setup Haxe Environment
+        uses: ./.github/actions/setup-haxe
         with:
-          haxe-version: 4.3.7
-
-      - name: Setup Haxelib
-        run: |
-          haxelib setup C:/haxelib
-
-      - name: Install dependencies
-        run: |
-          git config --global advice.detachedHead false
-          haxelib --global git haxelib https://github.com/FunkinCrew/haxelib.git
-          haxelib --global git hmm https://github.com/FunkinCrew/hmm.git
-          haxelib --global run hmm install -q
-          haxelib --global fixrepo
-          haxelib --global list
+          gh-token: ${{ github.token }}
+          targets: windows
 
       - name: Build HXCPP Tools
         run: |
@@ -56,8 +48,11 @@ jobs:
       - name: Setup Lime
         run: |
           haxelib --always run lime setup
-          haxelib run lime rebuild hxcpp
-          haxelib run lime rebuild cpp -64
+          haxelib run lime rebuild cpp
+
+      - name: Populate .env
+        run: |
+          touch .env
 
       - name: Build Windows
         run: |
