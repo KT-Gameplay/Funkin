@@ -63,7 +63,7 @@ class FlashCameraSongEvent extends SongEvent
 
     // Apply flash to the appropriate camera.
     var camera = aboveHUD ? PlayState.instance.camHUD : PlayState.instance.camGame;
-    camera._fxAlpha = alpha;
+    camera._fxFlashAlpha = alpha;
 
     if (camera == null) return;
 
