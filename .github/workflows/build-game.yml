@@ -68,7 +68,7 @@ jobs:
       - name: Rebuild Lime
         shell: pwsh
         run: |
-          lime rebuild windows
+          haxelib run lime rebuild windows
 
       # Setup Lime
       - name: Setup Lime
@@ -80,7 +80,7 @@ jobs:
       - name: Build Windows
         shell: pwsh
         run: |
-          lime build windows -DGITHUB_BUILD
+          haxelib run lime build windows -DGITHUB_BUILD
 
       # Upload compiled game
       - name: Upload Build
