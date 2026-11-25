@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Checkout repository and its submodules
+      # Checkout repository and submodules
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
@@ -30,15 +30,33 @@ jobs:
         with:
           haxe-version: 4.3.7
 
+      # Configure and verify Haxe environment
+      - name: Configure Haxe Environment
+        shell: pwsh
+        run: |
+          $haxeExe = (Get-Command haxe.exe).Source
+          $haxePath = Split-Path $haxeExe
+
+          Write-Host "Haxe executable: $haxeExe"
+          Write-Host "Haxe directory: $haxePath"
+
+          "HAXEPATH=$haxePath" >> $env:GITHUB_ENV
+
+          haxe -version
+          haxelib config
+
       # Install HMM
       - name: Install HMM
+        shell: pwsh
         run: |
           haxelib --global install hmm
           haxelib --global run hmm setup
 
       # Install project dependencies
       - name: Install Haxelibs
-        run: hmm install
+        shell: pwsh
+        run: |
+          hmm install
 
       # Setup Visual Studio environment
       - name: Setup MSVC
@@ -48,15 +66,21 @@ jobs:
 
       # Rebuild Lime native libraries
       - name: Rebuild Lime
-        run: lime rebuild windows
+        shell: pwsh
+        run: |
+          lime rebuild windows
 
       # Setup Lime
       - name: Setup Lime
-        run: haxelib run lime setup
+        shell: pwsh
+        run: |
+          haxelib run lime setup
 
       # Compile Friday Night Funkin'
       - name: Build Windows
-        run: lime build windows -DGITHUB_BUILD
+        shell: pwsh
+        run: |
+          lime build windows -DGITHUB_BUILD
 
       # Upload compiled game
       - name: Upload Build
