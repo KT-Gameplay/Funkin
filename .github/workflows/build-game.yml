@@ -64,6 +64,24 @@ jobs:
         with:
           arch: x64
 
+      # Compile hxcpp command-line tool
+      - name: Build hxcpp
+        shell: pwsh
+        run: |
+          $hxcppPath = ".haxelib/hxcpp/git/tools/hxcpp"
+
+          if (!(Test-Path "$hxcppPath/compile.hxml")) {
+            throw "hxcpp compile.hxml not found at $hxcppPath"
+          }
+
+          Push-Location $hxcppPath
+          try {
+            haxe compile.hxml
+          }
+          finally {
+            Pop-Location
+          }
+
       # Rebuild Lime native libraries
       - name: Rebuild Lime
         shell: pwsh
